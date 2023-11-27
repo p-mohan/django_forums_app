@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main class="auth layout">
+  <div class="container">
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <h3>Login</h3>
+        </div>
+      </div>
+      {% if messages %}
+      <ul style="flex: content; align-items: center;" class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if page == 'login' %}
+      <div class="layout__body">
+        <h2 class="auth__tagline">Create your own chat rooms</h2>
+
+        <form class="form" method="POST" , action="">
+          {% csrf_token %}
+          <div class="form__group form__group">
+            <label for="room_name">Username</label>
+            <input id="username" name="username" type="text" />
+          </div>
+          <div class="form__group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" />
+          </div>
+
+          <button class="btn btn--main" type="submit">
+            <img width="16px" height="16px" src="{% static 'images/lock.svg' %}" />
+
+            Login
+          </button>
+        </form>
+
+        <div class="auth__action">
+          <p>Haven't signed up yet?</p>
+          <a href="{% url 'register' %}" class="btn btn--link">Sign Up</a>
+        </div>
+      </div>
+      {% else %}
+      <div class="layout__body">
+        <h2 class="auth__tagline">Create your own chat rooms</h2>
+        {{ form.errors }} {{ form.non_field_errors }}
+        <form class="form" method="POST" , action="">
+          {% csrf_token %}
+          {% for field in form %}
+          <div class="form__group form__group">
+            <label for="room_name">{{field.label}}</label>
+            {{field}}
+          </div>
+          {% endfor %}
+
+          <button class="btn btn--main" type="submit">
+            <img width="16px" height="16px" src="{% static 'images/lock.svg' %}" />
+            Register
+          </button>
+        </form>
+
+        <div class="auth__action">
+          <p>Already signed up?</p>
+          <a href="{% url 'login' %}" class="btn btn--link">Login</a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</main>
+{% endblock content %}
